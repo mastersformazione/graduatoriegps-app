@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { FormEvent } from "react";
+import InstallButton from "./install-button";
 
 export default function Home() {
   const [form, setForm] = useState({
@@ -98,6 +99,8 @@ export default function Home() {
           Registrati
         </button>
       </form>
+
+      <InstallButton />
     </main>
   );
 }
