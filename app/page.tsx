@@ -11,7 +11,7 @@ export default function Home() {
     interesse: "",
   });
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
@@ -28,7 +28,6 @@ export default function Home() {
       if (data.success) {
         alert("Registrazione completata");
 
-        // reset form
         setForm({
           nome: "",
           email: "",
