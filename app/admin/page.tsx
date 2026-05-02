@@ -24,7 +24,7 @@ export default function AdminPage() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "X-Admin-Key": form.adminKey,
+            "X-Admin-Key": form.adminKey.trim(),
           },
           body: JSON.stringify({
             titolo: form.titolo,
