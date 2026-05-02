@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import OneSignal from "react-onesignal";
 
 type GpsUser = {
   nome: string;
@@ -24,6 +25,11 @@ export default function Dashboard() {
   const [notifiche, setNotifiche] = useState<Notifica[]>([]);
 
   useEffect(() => {
+    // Reset badge notifiche quando apro la dashboard
+    OneSignal.setAppBadgeCount(0).catch((error) => {
+      console.error("Errore reset badge OneSignal:", error);
+    });
+
     const storedUser = localStorage.getItem("gps_user");
 
     if (!storedUser) {
@@ -50,7 +56,7 @@ export default function Dashboard() {
 
     loadNotifiche();
 
-    const interval = setInterval(loadNotifiche, 10000); // ogni 10 sec
+    const interval = setInterval(loadNotifiche, 10000);
 
     return () => clearInterval(interval);
   }, [router]);
