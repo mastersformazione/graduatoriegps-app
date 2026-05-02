@@ -2,9 +2,12 @@
 
 import { useState } from "react";
 import type { FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import InstallButton from "./install-button";
 
 export default function Home() {
+  const router = useRouter();
+
   const [form, setForm] = useState({
     nome: "",
     email: "",
@@ -27,15 +30,14 @@ export default function Home() {
       const data = await res.json();
 
       if (data.success) {
-        alert("Registrazione completata");
-
         setForm({
           nome: "",
           email: "",
           telefono: "",
           interesse: "",
         });
-        window.location.href = "/dashboard";
+
+        router.push("/dashboard");
       } else {
         alert("Errore: " + data.error);
       }
