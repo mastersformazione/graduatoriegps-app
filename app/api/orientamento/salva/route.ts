@@ -34,14 +34,14 @@ export async function POST(req: Request) {
     ]);
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Errore salvataggio:", error);
 
     return NextResponse.json(
       {
         success: false,
-        errorMessage: error?.message || "Errore sconosciuto",
-        errorCode: error?.code || null,
+        errorMessage:
+          error instanceof Error ? error.message : "Errore sconosciuto",
       },
       { status: 500 }
     );
