@@ -6,6 +6,16 @@ import { useRouter } from "next/navigation";
 export default function Home() {
   const router = useRouter();
 
+  const handleAccess = () => {
+    const user = localStorage.getItem("gps_user");
+
+    if (user) {
+      router.push("/dashboard");
+    } else {
+      router.push("/register");
+    }
+  };
+
   return (
     <main
       style={{
@@ -25,7 +35,7 @@ export default function Home() {
 
       <div style={{ marginTop: 20 }}>
         <button
-          onClick={() => router.push("/register")}
+          onClick={handleAccess}
           style={{
             padding: 12,
             background: "black",
@@ -33,7 +43,7 @@ export default function Home() {
             width: "100%",
           }}
         >
-          Entra nella Dashboard
+          Accedi / Registrati
         </button>
       </div>
 
