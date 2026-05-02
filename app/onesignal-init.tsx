@@ -13,9 +13,6 @@ export default function OneSignalInit() {
       },
       allowLocalhostAsSecureOrigin: true,
     });
-
-    // 👉 RESET BADGE QUANDO APRI APP
-    OneSignal.setAppBadgeCount(0);
   }, []);
 
   return null;
