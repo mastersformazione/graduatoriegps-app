@@ -37,8 +37,12 @@ export default function AdminPage() {
       const data = await res.json();
 
       if (data.success) {
-        setStatus("Notifica salvata e push inviata correttamente.");
-
+        setStatus(
+          "Notifica salvata. OneSignal code: " +
+            data.onesignal_http_code +
+            " - Response: " +
+            JSON.stringify(data.onesignal_response)
+        );
         setForm({
           titolo: "",
           messaggio: "",
