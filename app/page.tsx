@@ -16,7 +16,7 @@ export default function Home() {
       <h1>Graduatorie GPS</h1>
 
       <p>
-        Installa l'app per ricevere aggiornamenti su GPS, abilitazioni, TFA
+        Installa la app per ricevere aggiornamenti su GPS, abilitazioni, TFA
         sostegno e percorsi universitari direttamente sul tuo telefono.
       </p>
 
@@ -25,8 +25,8 @@ export default function Home() {
       </div>
 
       <p style={{ marginTop: 20, fontSize: 14 }}>
-        Dopo l'installazione potrai registrarti e accedere alla tua dashboard
-        personale.
+        Dopo l&apos;installazione potrai registrarti e accedere alla tua
+        dashboard personale.
       </p>
     </main>
   );

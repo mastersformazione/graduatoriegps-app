@@ -3,9 +3,16 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
+type GpsUser = {
+  nome: string;
+  email: string;
+  telefono: string;
+  interesse: string;
+};
+
 export default function Dashboard() {
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<GpsUser | null>(null);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("gps_user");
@@ -15,12 +22,10 @@ export default function Dashboard() {
       return;
     }
 
-    setUser(JSON.parse(storedUser));
+    setUser(JSON.parse(storedUser) as GpsUser);
   }, [router]);
 
-  if (!user) {
-    return null; // evita flash contenuto
-  }
+  if (!user) return null;
 
   return (
     <main style={{ padding: 20, fontFamily: "Arial", maxWidth: 500 }}>
@@ -31,9 +36,9 @@ export default function Dashboard() {
       <h2>I tuoi aggiornamenti</h2>
 
       <ul>
-        <li>Sei registrato correttamente</li>
-        <li>Riceverai aggiornamenti personalizzati</li>
-        <li>Controlla spesso questa pagina</li>
+        <li>Sei registrato correttamente.</li>
+        <li>Riceverai aggiornamenti personalizzati.</li>
+        <li>Controlla spesso questa pagina.</li>
       </ul>
     </main>
   );
