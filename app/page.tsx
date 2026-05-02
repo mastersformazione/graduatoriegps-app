@@ -35,6 +35,7 @@ export default function Home() {
           telefono: "",
           interesse: "",
         });
+        window.location.href = "/dashboard";
       } else {
         alert("Errore: " + data.error);
       }
