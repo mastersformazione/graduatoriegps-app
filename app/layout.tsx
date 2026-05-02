@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import RegisterSW from "./register-sw";
+import OneSignalInit from "./onesignal-init";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -44,6 +45,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <RegisterSW />
+        <OneSignalInit />
         {children}
       </body>
     </html>

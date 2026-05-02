@@ -33,16 +33,24 @@ export default function Dashboard() {
 
     setUser(JSON.parse(storedUser) as GpsUser);
 
-    fetch("https://graduatoriegps.it/api/notifiche.php")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          setNotifiche(data.data);
-        }
-      })
-      .catch((error) => {
-        console.error("Errore caricamento notifiche:", error);
-      });
+    const loadNotifiche = () => {
+      fetch("https://graduatoriegps.it/api/notifiche.php")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            setNotifiche(data.data);
+          }
+        })
+        .catch((error) => {
+          console.error("Errore caricamento notifiche:", error);
+        });
+    };
+
+    loadNotifiche();
+
+    const interval = setInterval(loadNotifiche, 10000); // ogni 10 sec
+
+    return () => clearInterval(interval);
   }, [router]);
 
   if (!user) return null;
