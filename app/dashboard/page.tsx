@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import OneSignal from "react-onesignal";
 
 type GpsUser = {
   nome: string;
@@ -26,9 +25,6 @@ export default function Dashboard() {
 
   useEffect(() => {
     // Reset badge notifiche quando apro la dashboard
-    OneSignal.setAppBadgeCount(0).catch((error) => {
-      console.error("Errore reset badge OneSignal:", error);
-    });
 
     const storedUser = localStorage.getItem("gps_user");
 
