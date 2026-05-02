@@ -2,11 +2,24 @@
 
 import { useState } from "react";
 
+type OrientamentoData = {
+  cambiamento?: string;
+  titolo_studio?: string;
+  interesse?: string;
+  urgenza?: string;
+};
+
+type StepItem = {
+  id: keyof OrientamentoData;
+  domanda: string;
+  opzioni: string[];
+};
+
 export default function OrientamentoPage() {
   const [step, setStep] = useState(0);
-  const [formData, setFormData] = useState<any>({});
+  const [formData, setFormData] = useState<OrientamentoData>({});
 
-  const steps = [
+  const steps: StepItem[] = [
     {
       id: "cambiamento",
       domanda: "Che cambiamento vorresti ottenere nella tua vita?",
@@ -64,7 +77,7 @@ export default function OrientamentoPage() {
   const handleSelect = async (value: string) => {
     const currentStep = steps[step];
 
-    const updatedData = {
+    const updatedData: OrientamentoData = {
       ...formData,
       [currentStep.id]: value,
     };
@@ -74,13 +87,12 @@ export default function OrientamentoPage() {
     if (step < steps.length - 1) {
       setStep(step + 1);
     } else {
-      // invio dati API
       await salvaDati(updatedData);
       setStep(step + 1);
     }
   };
 
-  const salvaDati = async (data: any) => {
+  const salvaDati = async (data: OrientamentoData) => {
     try {
       await fetch("/api/orientamento/salva", {
         method: "POST",
@@ -88,7 +100,7 @@ export default function OrientamentoPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user_email: "test@app.com", // puoi collegarlo all’utente reale dopo
+          user_email: "test@app.com",
           user_nome: "Utente",
           cambiamento: data.cambiamento,
           obiettivo: data.cambiamento,
@@ -103,7 +115,6 @@ export default function OrientamentoPage() {
     }
   };
 
-  // STEP COMPLETATO
   if (step >= steps.length) {
     return (
       <div style={{ padding: 20 }}>
