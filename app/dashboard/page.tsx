@@ -34,7 +34,9 @@ export default function Dashboard() {
     setUser(JSON.parse(storedUser) as GpsUser);
 
     const loadNotifiche = () => {
-      fetch("https://graduatoriegps.it/api/notifiche.php")
+      fetch("https://graduatoriegps.it/api/notifiche.php?t=" + Date.now(), {
+        cache: "no-store",
+      })
         .then((res) => res.json())
         .then((data) => {
           if (data.success) {
