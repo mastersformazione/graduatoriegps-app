@@ -1,21 +1,8 @@
 "use client";
 
 import InstallButton from "./install-button";
-import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const router = useRouter();
-
-  const handleAccess = () => {
-    const user = localStorage.getItem("gps_user");
-
-    if (user) {
-      router.push("/dashboard");
-    } else {
-      router.push("/register");
-    }
-  };
-
   return (
     <main
       style={{
@@ -29,25 +16,18 @@ export default function Home() {
       <h1>Graduatorie GPS</h1>
 
       <p>
-        Accedi alla tua area personale per ricevere aggiornamenti su GPS,
-        abilitazioni, TFA sostegno e percorsi universitari.
+        Installa l'app per ricevere aggiornamenti su GPS, abilitazioni, TFA
+        sostegno e percorsi universitari direttamente sul tuo telefono.
       </p>
 
-      <div style={{ marginTop: 20 }}>
-        <button
-          onClick={handleAccess}
-          style={{
-            padding: 12,
-            background: "black",
-            color: "white",
-            width: "100%",
-          }}
-        >
-          Accedi / Registrati
-        </button>
+      <div style={{ marginTop: 30 }}>
+        <InstallButton />
       </div>
 
-      <InstallButton />
+      <p style={{ marginTop: 20, fontSize: 14 }}>
+        Dopo l'installazione potrai registrarti e accedere alla tua dashboard
+        personale.
+      </p>
     </main>
   );
 }
