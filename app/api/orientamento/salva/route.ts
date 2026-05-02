@@ -34,8 +34,16 @@ export async function POST(req: Request) {
     ]);
 
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Errore salvataggio:", error);
-    return NextResponse.json({ success: false }, { status: 500 });
+
+    return NextResponse.json(
+      {
+        success: false,
+        errorMessage: error?.message || "Errore sconosciuto",
+        errorCode: error?.code || null,
+      },
+      { status: 500 }
+    );
   }
 }
