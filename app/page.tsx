@@ -1,107 +1,41 @@
 "use client";
 
-import { useState } from "react";
-import type { FormEvent } from "react";
-import { useRouter } from "next/navigation";
 import InstallButton from "./install-button";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const router = useRouter();
 
-  const [form, setForm] = useState({
-    nome: "",
-    email: "",
-    telefono: "",
-    interesse: "",
-  });
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    try {
-      const res = await fetch("https://graduatoriegps.it/api/leads.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
-
-      const data = await res.json();
-
-      if (data.success) {
-        setForm({
-          nome: "",
-          email: "",
-          telefono: "",
-          interesse: "",
-        });
-
-        router.push("/dashboard");
-      } else {
-        alert("Errore: " + data.error);
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Errore di connessione");
-    }
-  };
-
   return (
-    <main style={{ padding: 20, fontFamily: "Arial", maxWidth: 400 }}>
-      <h1>Graduatorie GPS 2026</h1>
+    <main
+      style={{
+        padding: 20,
+        fontFamily: "Arial",
+        maxWidth: 400,
+        margin: "0 auto",
+        textAlign: "center",
+      }}
+    >
+      <h1>Graduatorie GPS</h1>
 
       <p>
-        Ricevi aggiornamenti su GPS, abilitazioni e percorsi universitari
-        direttamente sul tuo telefono.
+        Accedi alla tua area personale per ricevere aggiornamenti su GPS,
+        abilitazioni, TFA sostegno e percorsi universitari.
       </p>
 
-      <h2>Registrati gratis</h2>
-
-      <form
-        onSubmit={handleSubmit}
-        style={{ display: "flex", flexDirection: "column", gap: 10 }}
-      >
-        <input
-          type="text"
-          placeholder="Nome"
-          value={form.nome}
-          onChange={(e) => setForm({ ...form, nome: e.target.value })}
-          required
-        />
-
-        <input
-          type="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
-          required
-        />
-
-        <input
-          type="text"
-          placeholder="Telefono"
-          value={form.telefono}
-          onChange={(e) => setForm({ ...form, telefono: e.target.value })}
-          required
-        />
-
-        <select
-          value={form.interesse}
-          onChange={(e) => setForm({ ...form, interesse: e.target.value })}
-          required
+      <div style={{ marginTop: 20 }}>
+        <button
+          onClick={() => router.push("/register")}
+          style={{
+            padding: 12,
+            background: "black",
+            color: "white",
+            width: "100%",
+          }}
         >
-          <option value="">Seleziona interesse</option>
-          <option value="Percorsi abilitanti">Percorsi abilitanti</option>
-          <option value="GPS">GPS</option>
-          <option value="TFA sostegno">TFA sostegno</option>
-          <option value="Master scuola">Master scuola</option>
-        </select>
-
-        <button style={{ padding: 10, background: "black", color: "white" }}>
-          Registrati
+          Entra nella Dashboard
         </button>
-      </form>
+      </div>
 
       <InstallButton />
     </main>
