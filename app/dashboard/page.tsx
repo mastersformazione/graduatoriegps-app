@@ -63,6 +63,46 @@ export default function Dashboard() {
 
       <p>Benvenuto {user.nome} 👋</p>
 
+      <section
+        style={{
+          marginTop: 24,
+          marginBottom: 24,
+          padding: 20,
+          border: "1px solid #e5e7eb",
+          borderRadius: 12,
+          background: "#ffffff",
+        }}
+      >
+        <h2 style={{ marginTop: 0, marginBottom: 8 }}>Strumenti per te</h2>
+
+        <p style={{ marginBottom: 16, color: "#555", lineHeight: 1.5 }}>
+          Scegli uno strumento utile per orientarti nel mondo della scuola, dei
+          corsi universitari e della crescita professionale.
+        </p>
+
+        <button
+          type="button"
+          onClick={() => router.push("/dashboard/orientamento")}
+          style={{
+            display: "block",
+            width: "100%",
+            textAlign: "left",
+            padding: 16,
+            border: "1px solid #d1d5db",
+            borderRadius: 10,
+            color: "#111827",
+            background: "#f9fafb",
+            cursor: "pointer",
+          }}
+        >
+          <strong>Trova la tua strada</strong>
+          <p style={{ margin: "6px 0 0", color: "#555", lineHeight: 1.5 }}>
+            Rispondi a poche domande e scopri quale percorso di studio o
+            formazione può essere più adatto al tuo obiettivo.
+          </p>
+        </button>
+      </section>
+
       <h2>Ultimi aggiornamenti</h2>
 
       {notifiche.length === 0 ? (
