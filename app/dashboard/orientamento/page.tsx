@@ -94,6 +94,31 @@ export default function OrientamentoPage() {
 
   const salvaDati = async (data: OrientamentoData) => {
     try {
+      const risultato = getRisultato();
+
+      // salva profilo utente per retargeting locale
+      localStorage.setItem("profilo_utente", risultato.tipo);
+
+      // aggiorna subito il tag OneSignal dopo il test
+      try {
+        const OneSignal = (
+          window as typeof window & {
+            OneSignal?: {
+              User?: {
+                addTag?: (key: string, value: string) => void;
+              };
+            };
+          }
+        ).OneSignal;
+
+        if (OneSignal?.User?.addTag) {
+          OneSignal.User.addTag("profilo", risultato.tipo);
+          console.log("Tag OneSignal aggiornato dopo test:", risultato.tipo);
+        }
+      } catch (tagError) {
+        console.error("Errore aggiornamento tag OneSignal:", tagError);
+      }
+
       await fetch("/api/orientamento/salva", {
         method: "POST",
         headers: {
@@ -107,7 +132,7 @@ export default function OrientamentoPage() {
           titolo_studio: data.titolo_studio,
           interesse: data.interesse,
           urgenza: data.urgenza,
-          risultato_tipo: getRisultato().tipo,
+          risultato_tipo: risultato.tipo,
         }),
       });
     } catch (error) {
@@ -288,13 +313,14 @@ export default function OrientamentoPage() {
               cursor: "pointer",
             }}
           >
-            Ricevi il tuo piano personalizzato su WhatsApp
+            Ricevi Gratis il tuo piano personalizzato su WhatsApp
           </button>
         </a>
 
         {/* CTA SECONDARIA */}
         <p style={{ marginTop: 10, fontSize: 14, color: "#555" }}>
-          Un orientatore analizzerà il tuo caso e ti dirà esattamente cosa fare.
+          Un orientatore analizzerà GRATUITAMENTE il tuo caso e ti dirà
+          esattamente cosa fare.
         </p>
       </div>
     );

@@ -12,6 +12,14 @@ export default function OneSignalInit() {
         scope: "/",
       },
       allowLocalhostAsSecureOrigin: true,
+    }).then(() => {
+      // 👉 quando OneSignal è pronto
+      const profilo = localStorage.getItem("profilo_utente");
+
+      if (profilo) {
+        OneSignal.User.addTag("profilo", profilo);
+        console.log("Tag OneSignal salvato:", profilo);
+      }
     });
   }, []);
 
