@@ -205,32 +205,97 @@ export default function OrientamentoPage() {
 
     return (
       <div style={{ padding: 20 }}>
+        {/* TITOLO */}
         <h1>{risultato.titolo}</h1>
 
-        <p>{risultato.descrizione}</p>
+        {/* DESCRIZIONE */}
+        <p style={{ lineHeight: 1.6 }}>{risultato.descrizione}</p>
 
-        <h3>Cosa potresti valutare adesso:</h3>
+        {/* DOVE SEI OGGI */}
+        <div
+          style={{
+            marginTop: 20,
+            padding: 16,
+            borderRadius: 10,
+            background: "#f9fafb",
+          }}
+        >
+          <strong>Dove sei oggi</strong>
+          <p style={{ marginTop: 6 }}>
+            Con il tuo titolo attuale puoi accedere a opportunità limitate o
+            comunque non ottimizzate rispetto ai tuoi obiettivi.
+          </p>
+        </div>
 
-        <ul>
-          {risultato.consigli.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
+        {/* DOVE PUOI ARRIVARE */}
+        <div
+          style={{
+            marginTop: 16,
+            padding: 16,
+            borderRadius: 10,
+            background: "#eef6ff",
+          }}
+        >
+          <strong>Dove puoi arrivare</strong>
+          <p style={{ marginTop: 6 }}>
+            Con il percorso giusto puoi accedere a opportunità molto più
+            stabili, aumentare le possibilità di lavoro e costruire una crescita
+            reale nel tempo.
+          </p>
+        </div>
 
-        <p style={{ marginTop: 20 }}>
-          Ogni situazione cambia in base al titolo di studio, all’obiettivo e
-          alle tempistiche. Prima di scegliere un corso, può essere utile fare
-          una verifica personalizzata.
+        {/* PERCORSO */}
+        <div style={{ marginTop: 24 }}>
+          <h3>Percorso consigliato per te</h3>
+
+          <ul style={{ marginTop: 10 }}>
+            {risultato.consigli.map((item, index) => (
+              <li key={index} style={{ marginBottom: 6 }}>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* LEVA PSICOLOGICA */}
+        <p style={{ marginTop: 20, fontWeight: "bold" }}>
+          Il punto non è scegliere un corso qualsiasi, ma capire qual è il
+          percorso più veloce e adatto alla tua situazione.
         </p>
 
+        {/* CTA */}
         <a
-          href="https://wa.me/393298170817?text=Ho%20completato%20il%20test%20di%20orientamento%20e%20vorrei%20ricevere%20un%20piano%20personalizzato"
+          href={`https://wa.me/393298170817?text=Ho%20fatto%20il%20test%20orientamento.%0A%0ACambiamento:%20${encodeURIComponent(
+            formData.cambiamento || ""
+          )}%0ATitolo:%20${encodeURIComponent(
+            formData.titolo_studio || ""
+          )}%0AInteresse:%20${encodeURIComponent(
+            formData.interesse || ""
+          )}%0AUrgenza:%20${encodeURIComponent(formData.urgenza || "")}`}
           target="_blank"
         >
-          <button style={{ marginTop: 20 }}>
-            Ricevi il tuo piano su WhatsApp
+          <button
+            style={{
+              marginTop: 24,
+              width: "100%",
+              padding: 16,
+              background: "#16a34a",
+              color: "#fff",
+              border: "none",
+              borderRadius: 10,
+              fontSize: 16,
+              fontWeight: "bold",
+              cursor: "pointer",
+            }}
+          >
+            Ricevi il tuo piano personalizzato su WhatsApp
           </button>
         </a>
+
+        {/* CTA SECONDARIA */}
+        <p style={{ marginTop: 10, fontSize: 14, color: "#555" }}>
+          Un orientatore analizzerà il tuo caso e ti dirà esattamente cosa fare.
+        </p>
       </div>
     );
   }
