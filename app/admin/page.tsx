@@ -8,6 +8,7 @@ export default function AdminPage() {
     titolo: "",
     messaggio: "",
     categoria: "Generale",
+    target: "ALL",
     adminKey: "",
   });
 
@@ -30,6 +31,7 @@ export default function AdminPage() {
             titolo: form.titolo,
             messaggio: form.messaggio,
             categoria: form.categoria,
+            target: form.target,
           }),
         }
       );
@@ -38,15 +40,19 @@ export default function AdminPage() {
 
       if (data.success) {
         setStatus(
-          "Notifica salvata. OneSignal code: " +
+          "Notifica salvata. Target: " +
+            data.target +
+            " - OneSignal code: " +
             data.onesignal_http_code +
             " - Response: " +
             JSON.stringify(data.onesignal_response)
         );
+
         setForm({
           titolo: "",
           messaggio: "",
           categoria: "Generale",
+          target: "ALL",
           adminKey: form.adminKey,
         });
       } else {
@@ -70,7 +76,8 @@ export default function AdminPage() {
       <h1>Pannello Admin</h1>
 
       <p>
-        Da qui puoi pubblicare una notifica nella dashboard e inviare una push.
+        Da qui puoi pubblicare una notifica nella dashboard e inviare una push
+        anche a utenti segmentati.
       </p>
 
       <form
@@ -101,6 +108,7 @@ export default function AdminPage() {
           rows={5}
         />
 
+        <label>Categoria notifica</label>
         <select
           value={form.categoria}
           onChange={(e) => setForm({ ...form, categoria: e.target.value })}
@@ -110,6 +118,21 @@ export default function AdminPage() {
           <option value="Percorsi abilitanti">Percorsi abilitanti</option>
           <option value="TFA sostegno">TFA sostegno</option>
           <option value="Master scuola">Master scuola</option>
+          <option value="Lauree">Lauree</option>
+          <option value="Orientamento">Orientamento</option>
+        </select>
+
+        <label>Target push OneSignal</label>
+        <select
+          value={form.target}
+          onChange={(e) => setForm({ ...form, target: e.target.value })}
+        >
+          <option value="ALL">Tutti gli utenti</option>
+          <option value="SCUOLA_GPS">Scuola / GPS</option>
+          <option value="PROFESSIONE">Professioni</option>
+          <option value="CRESCITA_LAVORO">Crescita lavoro</option>
+          <option value="LAUREA">Laurea</option>
+          <option value="INDECISO">Indecisi</option>
         </select>
 
         <button
@@ -117,6 +140,7 @@ export default function AdminPage() {
             padding: 12,
             background: "black",
             color: "white",
+            cursor: "pointer",
           }}
         >
           Pubblica notifica
