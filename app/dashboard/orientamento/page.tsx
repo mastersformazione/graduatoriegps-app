@@ -107,7 +107,7 @@ export default function OrientamentoPage() {
           titolo_studio: data.titolo_studio,
           interesse: data.interesse,
           urgenza: data.urgenza,
-          risultato_tipo: "BASE",
+          risultato_tipo: getRisultato().tipo,
         }),
       });
     } catch (error) {
@@ -115,24 +115,122 @@ export default function OrientamentoPage() {
     }
   };
 
+  const getRisultato = () => {
+    const cambiamento = formData.cambiamento || "";
+    const interesse = formData.interesse || "";
+
+    if (
+      cambiamento === "Voglio lavorare nella scuola" ||
+      interesse === "Insegnare"
+    ) {
+      return {
+        tipo: "SCUOLA_GPS",
+        titolo: "Percorso consigliato: mondo scuola",
+        descrizione:
+          "Le tue risposte indicano un interesse verso l’insegnamento, le GPS o la crescita nel mondo scuola. Il primo passo è verificare se il tuo titolo è già spendibile o se servono integrazioni, master o certificazioni.",
+        consigli: [
+          "Verifica del titolo di studio",
+          "Controllo delle classi di concorso accessibili",
+          "Eventuale integrazione di esami",
+          "Master universitari per aumentare il punteggio",
+          "Certificazioni informatiche e linguistiche",
+        ],
+      };
+    }
+
+    if (cambiamento === "Voglio diventare un professionista") {
+      return {
+        tipo: "PROFESSIONE",
+        titolo: "Percorso consigliato: professione regolamentata",
+        descrizione:
+          "Hai scelto una strada che può richiedere una laurea specifica, un percorso strutturato e, in alcuni casi, tirocinio o abilitazione professionale.",
+        consigli: [
+          "Scelta della laurea più coerente",
+          "Verifica dei requisiti professionali",
+          "Valutazione tra triennale, magistrale o ciclo unico",
+          "Orientamento prima dell’iscrizione",
+        ],
+      };
+    }
+
+    if (
+      cambiamento === "Voglio guadagnare di più" ||
+      cambiamento === "Voglio cambiare lavoro"
+    ) {
+      return {
+        tipo: "CRESCITA_LAVORO",
+        titolo: "Percorso consigliato: crescita professionale",
+        descrizione:
+          "Il tuo obiettivo sembra essere migliorare la tua posizione, aumentare le opportunità o cambiare settore. In questo caso può essere utile valutare una laurea, un master o certificazioni mirate.",
+        consigli: [
+          "Laurea triennale o magistrale",
+          "Master professionalizzante",
+          "Certificazioni spendibili nel lavoro",
+          "Percorsi collegati a scuola, concorsi o aziende",
+        ],
+      };
+    }
+
+    if (cambiamento === "Voglio prendere una laurea") {
+      return {
+        tipo: "LAUREA",
+        titolo: "Percorso consigliato: scelta universitaria",
+        descrizione:
+          "Le tue risposte indicano che vuoi costruire un percorso universitario. La scelta migliore dipende dal tuo titolo attuale, dai tuoi interessi e dal tipo di lavoro che immagini per il futuro.",
+        consigli: [
+          "Analisi dell’area universitaria più adatta",
+          "Confronto tra corsi di laurea",
+          "Valutazione degli sbocchi professionali",
+          "Piano di studio compatibile con lavoro e impegni",
+        ],
+      };
+    }
+
+    return {
+      tipo: "INDECISO",
+      titolo: "Percorso consigliato: chiarire la direzione",
+      descrizione:
+        "È normale non avere ancora le idee chiare. Il punto di partenza migliore è capire quale obiettivo vuoi costruire e quale percorso può essere più realistico per la tua situazione.",
+      consigli: [
+        "Consulenza orientativa",
+        "Analisi del titolo attuale",
+        "Confronto tra più aree di studio",
+        "Valutazione delle opportunità più concrete",
+      ],
+    };
+  };
+
   if (step >= steps.length) {
+    const risultato = getRisultato();
+
     return (
       <div style={{ padding: 20 }}>
-        <h1>Il tuo orientamento è pronto</h1>
-        <p>
-          In base alle tue risposte possiamo già individuare una direzione utile
-          per costruire il tuo percorso.
-        </p>
+        <h1>{risultato.titolo}</h1>
 
-        <h3>Prossimo passo consigliato:</h3>
+        <p>{risultato.descrizione}</p>
+
+        <h3>Cosa potresti valutare adesso:</h3>
 
         <ul>
-          <li>Verifica del tuo titolo di studio</li>
-          <li>Analisi delle opportunità disponibili</li>
-          <li>Scelta del percorso più adatto</li>
+          {risultato.consigli.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
         </ul>
 
-        <button style={{ marginTop: 20 }}>Parla con un orientatore</button>
+        <p style={{ marginTop: 20 }}>
+          Ogni situazione cambia in base al titolo di studio, all’obiettivo e
+          alle tempistiche. Prima di scegliere un corso, può essere utile fare
+          una verifica personalizzata.
+        </p>
+
+        <a
+          href="https://wa.me/393298170817?text=Ho%20completato%20il%20test%20di%20orientamento%20e%20vorrei%20ricevere%20un%20piano%20personalizzato"
+          target="_blank"
+        >
+          <button style={{ marginTop: 20 }}>
+            Ricevi il tuo piano su WhatsApp
+          </button>
+        </a>
       </div>
     );
   }
