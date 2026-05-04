@@ -31,7 +31,6 @@ export default function Home() {
         margin: "0 auto",
       }}
     >
-      {/* HEADER NUOVO */}
       <Header
         title="Graduatorie GPS"
         subtitle="Ricevi aggiornamenti su GPS, abilitazioni e percorsi universitari direttamente sul tuo telefono."
@@ -46,7 +45,6 @@ export default function Home() {
         </p>
       </div>
 
-      {/* ACTION SHEET */}
       <ActionSheet
         title="Menu"
         description="Scegli cosa fare"
