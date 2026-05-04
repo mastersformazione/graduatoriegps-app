@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Button from "@/components/ui/Button";
+import Card from "@/components/ui/Card";
 
 type GpsUser = {
   nome: string;
@@ -59,39 +60,35 @@ export default function Dashboard() {
   if (!user) return null;
 
   return (
-    <main style={{ padding: 20, fontFamily: "Arial", maxWidth: 500 }}>
+    <main
+      style={{
+        padding: 20,
+        fontFamily: "Arial",
+        maxWidth: 500,
+        margin: "0 auto",
+      }}
+    >
       <h1>Dashboard Graduatorie GPS</h1>
 
       <p>Benvenuto {user.nome} 👋</p>
 
-      <section
-        style={{
-          marginTop: 24,
-          marginBottom: 24,
-          padding: 20,
-          border: "1px solid #e5e7eb",
-          borderRadius: 12,
-          background: "#ffffff",
-        }}
-      >
-        <h2 style={{ marginTop: 0, marginBottom: 8 }}>Strumenti per te</h2>
+      <div style={{ marginTop: 24, marginBottom: 24 }}>
+        <Card
+          title="Strumenti per te"
+          description="Scegli uno strumento utile per orientarti nel mondo della scuola, dei corsi universitari e della crescita professionale."
+        >
+          <Button
+            label="Trova la tua strada"
+            onClick={() => router.push("/dashboard/orientamento")}
+            variant="secondary"
+          />
 
-        <p style={{ marginBottom: 16, color: "#555", lineHeight: 1.5 }}>
-          Scegli uno strumento utile per orientarti nel mondo della scuola, dei
-          corsi universitari e della crescita professionale.
-        </p>
-
-        <Button
-          label="Trova la tua strada"
-          onClick={() => router.push("/dashboard/orientamento")}
-          variant="secondary"
-        />
-
-        <p style={{ margin: "10px 0 0", color: "#555", lineHeight: 1.5 }}>
-          Rispondi a poche domande e scopri quale percorso di studio o
-          formazione può essere più adatto al tuo obiettivo.
-        </p>
-      </section>
+          <p style={{ margin: "10px 0 0", color: "#555", lineHeight: 1.5 }}>
+            Rispondi a poche domande e scopri quale percorso di studio o
+            formazione può essere più adatto al tuo obiettivo.
+          </p>
+        </Card>
+      </div>
 
       <h2>Ultimi aggiornamenti</h2>
 
@@ -100,21 +97,15 @@ export default function Dashboard() {
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           {notifiche.map((notifica) => (
-            <div
+            <Card
               key={notifica.id}
-              style={{
-                border: "1px solid #ddd",
-                borderRadius: 8,
-                padding: 12,
-                background: "#f9f9f9",
-              }}
+              title={notifica.titolo}
+              description={notifica.messaggio}
             >
-              <h3 style={{ margin: "0 0 6px" }}>{notifica.titolo}</h3>
-              <p style={{ margin: "0 0 8px" }}>{notifica.messaggio}</p>
               <small>
                 {notifica.categoria} · {notifica.created_at}
               </small>
-            </div>
+            </Card>
           ))}
         </div>
       )}

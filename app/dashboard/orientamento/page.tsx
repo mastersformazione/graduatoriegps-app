@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Button from "@/components/ui/Button";
+import Card from "@/components/ui/Card";
 
 type OrientamentoData = {
   cambiamento?: string;
@@ -236,96 +237,79 @@ export default function OrientamentoPage() {
     )}%0AUrgenza:%20${encodeURIComponent(formData.urgenza || "")}`;
 
     return (
-      <div style={{ padding: 20 }}>
-        <h1>{risultato.titolo}</h1>
+      <main style={{ padding: 20, maxWidth: 500, margin: "0 auto" }}>
+        <Card title={risultato.titolo} description={risultato.descrizione}>
+          <div style={{ display: "grid", gap: 12 }}>
+            <Card
+              title="Dove sei oggi"
+              description="Con il tuo titolo attuale puoi accedere a opportunità limitate o comunque non ottimizzate rispetto ai tuoi obiettivi."
+            />
 
-        <p style={{ lineHeight: 1.6 }}>{risultato.descrizione}</p>
+            <Card
+              title="Dove puoi arrivare"
+              description="Con il percorso giusto puoi accedere a opportunità molto più stabili, aumentare le possibilità di lavoro e costruire una crescita reale nel tempo."
+            />
 
-        <div
-          style={{
-            marginTop: 20,
-            padding: 16,
-            borderRadius: 10,
-            background: "#f9fafb",
-          }}
-        >
-          <strong>Dove sei oggi</strong>
-          <p style={{ marginTop: 6 }}>
-            Con il tuo titolo attuale puoi accedere a opportunità limitate o
-            comunque non ottimizzate rispetto ai tuoi obiettivi.
-          </p>
-        </div>
+            <div>
+              <h3>Percorso consigliato per te</h3>
 
-        <div
-          style={{
-            marginTop: 16,
-            padding: 16,
-            borderRadius: 10,
-            background: "#eef6ff",
-          }}
-        >
-          <strong>Dove puoi arrivare</strong>
-          <p style={{ marginTop: 6 }}>
-            Con il percorso giusto puoi accedere a opportunità molto più
-            stabili, aumentare le possibilità di lavoro e costruire una crescita
-            reale nel tempo.
-          </p>
-        </div>
+              <ul style={{ marginTop: 10 }}>
+                {risultato.consigli.map((item, index) => (
+                  <li key={index} style={{ marginBottom: 6 }}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-        <div style={{ marginTop: 24 }}>
-          <h3>Percorso consigliato per te</h3>
+            <p style={{ marginTop: 8, fontWeight: "bold" }}>
+              Il punto non è scegliere un corso qualsiasi, ma capire qual è il
+              percorso più veloce e adatto alla tua situazione.
+            </p>
 
-          <ul style={{ marginTop: 10 }}>
-            {risultato.consigli.map((item, index) => (
-              <li key={index} style={{ marginBottom: 6 }}>
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: "block", textDecoration: "none" }}
+            >
+              <Button
+                label="Ricevi Gratis il tuo piano personalizzato su WhatsApp"
+                variant="primary"
+              />
+            </a>
 
-        <p style={{ marginTop: 20, fontWeight: "bold" }}>
-          Il punto non è scegliere un corso qualsiasi, ma capire qual è il
-          percorso più veloce e adatto alla tua situazione.
-        </p>
-
-        <a
-          href={whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ display: "block", marginTop: 24, textDecoration: "none" }}
-        >
-          <Button
-            label="Ricevi Gratis il tuo piano personalizzato su WhatsApp"
-            variant="primary"
-          />
-        </a>
-
-        <p style={{ marginTop: 10, fontSize: 14, color: "#555" }}>
-          Un orientatore analizzerà GRATUITAMENTE il tuo caso e ti dirà
-          esattamente cosa fare.
-        </p>
-      </div>
+            <p style={{ marginTop: 0, fontSize: 14, color: "#555" }}>
+              Un orientatore analizzerà GRATUITAMENTE il tuo caso e ti dirà
+              esattamente cosa fare.
+            </p>
+          </div>
+        </Card>
+      </main>
     );
   }
 
   const current = steps[step];
 
   return (
-    <div style={{ padding: 20 }}>
-      <h1>Trova la tua strada</h1>
-      <p>{current.domanda}</p>
-
-      <div style={{ marginTop: 20, display: "grid", gap: 10 }}>
-        {current.opzioni.map((opzione) => (
-          <Button
-            key={opzione}
-            label={opzione}
-            onClick={() => handleSelect(opzione)}
-            variant="secondary"
-          />
-        ))}
-      </div>
-    </div>
+    <main style={{ padding: 20, maxWidth: 500, margin: "0 auto" }}>
+      <Card
+        title="Trova la tua strada"
+        description={`Domanda ${step + 1} di ${steps.length}: ${
+          current.domanda
+        }`}
+      >
+        <div style={{ marginTop: 10, display: "grid", gap: 10 }}>
+          {current.opzioni.map((opzione) => (
+            <Button
+              key={opzione}
+              label={opzione}
+              onClick={() => handleSelect(opzione)}
+              variant="secondary"
+            />
+          ))}
+        </div>
+      </Card>
+    </main>
   );
 }
