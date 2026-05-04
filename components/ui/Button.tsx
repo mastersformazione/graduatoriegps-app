@@ -5,6 +5,7 @@ type Props = {
   onClick?: () => void;
   variant?: "primary" | "secondary" | "danger";
   disabled?: boolean;
+  type?: "button" | "submit" | "reset";
 };
 
 export default function Button({
@@ -12,6 +13,7 @@ export default function Button({
   onClick,
   variant = "secondary",
   disabled = false,
+  type = "button",
 }: Props) {
   const base =
     "w-full rounded-2xl py-4 text-base font-medium transition active:scale-[0.98]";
@@ -27,6 +29,7 @@ export default function Button({
 
   return (
     <button
+      type={type}
       onClick={onClick}
       disabled={disabled}
       className={`${base} ${styles} ${disabledStyle}`}
