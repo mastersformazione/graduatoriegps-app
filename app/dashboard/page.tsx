@@ -72,7 +72,9 @@ export default function Dashboard() {
 
       <p>Benvenuto {user.nome} 👋</p>
 
-      <div style={{ marginTop: 24, marginBottom: 24 }}>
+      <div
+        style={{ marginTop: 24, marginBottom: 24, display: "grid", gap: 12 }}
+      >
         <Card
           title="Strumenti per te"
           description="Scegli uno strumento utile per orientarti nel mondo della scuola, dei corsi universitari e della crescita professionale."
@@ -88,6 +90,12 @@ export default function Dashboard() {
             formazione può essere più adatto al tuo obiettivo.
           </p>
         </Card>
+
+        <Card
+          title="Il tuo percorso più veloce"
+          description="Scopri il modo più rapido e realistico per raggiungere il tuo obiettivo."
+          onClick={() => router.push("/dashboard/percorso")}
+        />
       </div>
 
       <h2>Ultimi aggiornamenti</h2>
