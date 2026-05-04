@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { FormEvent } from "react";
+import Button from "@/components/ui/Button";
 
 export default function AdminPage() {
   const [form, setForm] = useState({
@@ -135,16 +136,8 @@ export default function AdminPage() {
           <option value="INDECISO">Indecisi</option>
         </select>
 
-        <button
-          style={{
-            padding: 12,
-            background: "black",
-            color: "white",
-            cursor: "pointer",
-          }}
-        >
-          Pubblica notifica
-        </button>
+        {/* BOTTONE UI RIUTILIZZABILE */}
+        <Button label="Pubblica notifica" variant="primary" type="submit" />
       </form>
 
       {status && <p style={{ marginTop: 20 }}>{status}</p>}

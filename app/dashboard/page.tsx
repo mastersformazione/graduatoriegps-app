@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Button from "@/components/ui/Button";
 
 type GpsUser = {
   nome: string;
@@ -80,27 +81,16 @@ export default function Dashboard() {
           corsi universitari e della crescita professionale.
         </p>
 
-        <button
-          type="button"
+        <Button
+          label="Trova la tua strada"
           onClick={() => router.push("/dashboard/orientamento")}
-          style={{
-            display: "block",
-            width: "100%",
-            textAlign: "left",
-            padding: 16,
-            border: "1px solid #d1d5db",
-            borderRadius: 10,
-            color: "#111827",
-            background: "#f9fafb",
-            cursor: "pointer",
-          }}
-        >
-          <strong>Trova la tua strada</strong>
-          <p style={{ margin: "6px 0 0", color: "#555", lineHeight: 1.5 }}>
-            Rispondi a poche domande e scopri quale percorso di studio o
-            formazione può essere più adatto al tuo obiettivo.
-          </p>
-        </button>
+          variant="secondary"
+        />
+
+        <p style={{ margin: "10px 0 0", color: "#555", lineHeight: 1.5 }}>
+          Rispondi a poche domande e scopri quale percorso di studio o
+          formazione può essere più adatto al tuo obiettivo.
+        </p>
       </section>
 
       <h2>Ultimi aggiornamenti</h2>

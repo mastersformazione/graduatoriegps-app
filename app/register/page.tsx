@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { FormEvent } from "react";
+import Button from "@/components/ui/Button";
 
 export default function Register() {
   const router = useRouter();
@@ -29,10 +30,8 @@ export default function Register() {
       const data = await res.json();
 
       if (data.success) {
-        // 👉 salviamo utente in locale (fondamentale per dopo)
         localStorage.setItem("gps_user", JSON.stringify(form));
 
-        // 👉 reset form
         setForm({
           nome: "",
           email: "",
@@ -40,7 +39,6 @@ export default function Register() {
           interesse: "",
         });
 
-        // 👉 redirect
         router.push("/dashboard");
       } else {
         alert("Errore: " + data.error);
@@ -107,15 +105,8 @@ export default function Register() {
           <option value="Master scuola">Master scuola</option>
         </select>
 
-        <button
-          style={{
-            padding: 12,
-            background: "black",
-            color: "white",
-          }}
-        >
-          Registrati
-        </button>
+        {/* BOTTONE UNIFICATO */}
+        <Button label="Registrati" variant="primary" type="submit" />
       </form>
     </main>
   );

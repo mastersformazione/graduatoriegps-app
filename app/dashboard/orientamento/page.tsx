@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Button from "@/components/ui/Button";
 
 type OrientamentoData = {
   cambiamento?: string;
@@ -73,72 +74,6 @@ export default function OrientamentoPage() {
       ],
     },
   ];
-
-  const handleSelect = async (value: string) => {
-    const currentStep = steps[step];
-
-    const updatedData: OrientamentoData = {
-      ...formData,
-      [currentStep.id]: value,
-    };
-
-    setFormData(updatedData);
-
-    if (step < steps.length - 1) {
-      setStep(step + 1);
-    } else {
-      await salvaDati(updatedData);
-      setStep(step + 1);
-    }
-  };
-
-  const salvaDati = async (data: OrientamentoData) => {
-    try {
-      const risultato = getRisultato();
-
-      // salva profilo utente per retargeting locale
-      localStorage.setItem("profilo_utente", risultato.tipo);
-
-      // aggiorna subito il tag OneSignal dopo il test
-      try {
-        const OneSignal = (
-          window as typeof window & {
-            OneSignal?: {
-              User?: {
-                addTag?: (key: string, value: string) => void;
-              };
-            };
-          }
-        ).OneSignal;
-
-        if (OneSignal?.User?.addTag) {
-          OneSignal.User.addTag("profilo", risultato.tipo);
-          console.log("Tag OneSignal aggiornato dopo test:", risultato.tipo);
-        }
-      } catch (tagError) {
-        console.error("Errore aggiornamento tag OneSignal:", tagError);
-      }
-
-      await fetch("/api/orientamento/salva", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user_email: "test@app.com",
-          user_nome: "Utente",
-          cambiamento: data.cambiamento,
-          obiettivo: data.cambiamento,
-          titolo_studio: data.titolo_studio,
-          interesse: data.interesse,
-          urgenza: data.urgenza,
-          risultato_tipo: risultato.tipo,
-        }),
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const getRisultato = () => {
     const cambiamento = formData.cambiamento || "";
@@ -225,18 +160,87 @@ export default function OrientamentoPage() {
     };
   };
 
+  const salvaDati = async (data: OrientamentoData) => {
+    try {
+      const risultato = getRisultato();
+
+      localStorage.setItem("profilo_utente", risultato.tipo);
+
+      try {
+        const OneSignal = (
+          window as typeof window & {
+            OneSignal?: {
+              User?: {
+                addTag?: (key: string, value: string) => void;
+              };
+            };
+          }
+        ).OneSignal;
+
+        if (OneSignal?.User?.addTag) {
+          OneSignal.User.addTag("profilo", risultato.tipo);
+          console.log("Tag OneSignal aggiornato dopo test:", risultato.tipo);
+        }
+      } catch (tagError) {
+        console.error("Errore aggiornamento tag OneSignal:", tagError);
+      }
+
+      await fetch("/api/orientamento/salva", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_email: "test@app.com",
+          user_nome: "Utente",
+          cambiamento: data.cambiamento,
+          obiettivo: data.cambiamento,
+          titolo_studio: data.titolo_studio,
+          interesse: data.interesse,
+          urgenza: data.urgenza,
+          risultato_tipo: risultato.tipo,
+        }),
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleSelect = async (value: string) => {
+    const currentStep = steps[step];
+
+    const updatedData: OrientamentoData = {
+      ...formData,
+      [currentStep.id]: value,
+    };
+
+    setFormData(updatedData);
+
+    if (step < steps.length - 1) {
+      setStep(step + 1);
+    } else {
+      await salvaDati(updatedData);
+      setStep(step + 1);
+    }
+  };
+
   if (step >= steps.length) {
     const risultato = getRisultato();
 
+    const whatsappUrl = `https://wa.me/393298170817?text=Ho%20fatto%20il%20test%20orientamento.%0A%0ACambiamento:%20${encodeURIComponent(
+      formData.cambiamento || ""
+    )}%0ATitolo:%20${encodeURIComponent(
+      formData.titolo_studio || ""
+    )}%0AInteresse:%20${encodeURIComponent(
+      formData.interesse || ""
+    )}%0AUrgenza:%20${encodeURIComponent(formData.urgenza || "")}`;
+
     return (
       <div style={{ padding: 20 }}>
-        {/* TITOLO */}
         <h1>{risultato.titolo}</h1>
 
-        {/* DESCRIZIONE */}
         <p style={{ lineHeight: 1.6 }}>{risultato.descrizione}</p>
 
-        {/* DOVE SEI OGGI */}
         <div
           style={{
             marginTop: 20,
@@ -252,7 +256,6 @@ export default function OrientamentoPage() {
           </p>
         </div>
 
-        {/* DOVE PUOI ARRIVARE */}
         <div
           style={{
             marginTop: 16,
@@ -269,7 +272,6 @@ export default function OrientamentoPage() {
           </p>
         </div>
 
-        {/* PERCORSO */}
         <div style={{ marginTop: 24 }}>
           <h3>Percorso consigliato per te</h3>
 
@@ -282,42 +284,23 @@ export default function OrientamentoPage() {
           </ul>
         </div>
 
-        {/* LEVA PSICOLOGICA */}
         <p style={{ marginTop: 20, fontWeight: "bold" }}>
           Il punto non è scegliere un corso qualsiasi, ma capire qual è il
           percorso più veloce e adatto alla tua situazione.
         </p>
 
-        {/* CTA */}
         <a
-          href={`https://wa.me/393298170817?text=Ho%20fatto%20il%20test%20orientamento.%0A%0ACambiamento:%20${encodeURIComponent(
-            formData.cambiamento || ""
-          )}%0ATitolo:%20${encodeURIComponent(
-            formData.titolo_studio || ""
-          )}%0AInteresse:%20${encodeURIComponent(
-            formData.interesse || ""
-          )}%0AUrgenza:%20${encodeURIComponent(formData.urgenza || "")}`}
+          href={whatsappUrl}
           target="_blank"
+          rel="noopener noreferrer"
+          style={{ display: "block", marginTop: 24, textDecoration: "none" }}
         >
-          <button
-            style={{
-              marginTop: 24,
-              width: "100%",
-              padding: 16,
-              background: "#16a34a",
-              color: "#fff",
-              border: "none",
-              borderRadius: 10,
-              fontSize: 16,
-              fontWeight: "bold",
-              cursor: "pointer",
-            }}
-          >
-            Ricevi Gratis il tuo piano personalizzato su WhatsApp
-          </button>
+          <Button
+            label="Ricevi Gratis il tuo piano personalizzato su WhatsApp"
+            variant="primary"
+          />
         </a>
 
-        {/* CTA SECONDARIA */}
         <p style={{ marginTop: 10, fontSize: 14, color: "#555" }}>
           Un orientatore analizzerà GRATUITAMENTE il tuo caso e ti dirà
           esattamente cosa fare.
@@ -333,20 +316,14 @@ export default function OrientamentoPage() {
       <h1>Trova la tua strada</h1>
       <p>{current.domanda}</p>
 
-      <div style={{ marginTop: 20 }}>
-        {current.opzioni.map((opzione, index) => (
-          <button
-            key={index}
+      <div style={{ marginTop: 20, display: "grid", gap: 10 }}>
+        {current.opzioni.map((opzione) => (
+          <Button
+            key={opzione}
+            label={opzione}
             onClick={() => handleSelect(opzione)}
-            style={{
-              display: "block",
-              marginBottom: 10,
-              padding: 10,
-              width: "100%",
-            }}
-          >
-            {opzione}
-          </button>
+            variant="secondary"
+          />
         ))}
       </div>
     </div>
