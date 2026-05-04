@@ -2,16 +2,21 @@
 
 import InstallButton from "./install-button";
 import { useRouter } from "next/navigation";
+import ActionSheet from "@/components/ActionSheet";
 
 export default function Home() {
   const router = useRouter();
 
-  const handleStart = () => {
-    const user = localStorage.getItem("gps_user");
+  const handleAction = (action: string) => {
+    if (action === "Home") {
+      router.push("/");
+    }
 
-    if (user) {
+    if (action === "Accedi") {
       router.push("/dashboard");
-    } else {
+    }
+
+    if (action === "Registra") {
       router.push("/register");
     }
   };
@@ -33,25 +38,20 @@ export default function Home() {
         universitari direttamente sul tuo telefono.
       </p>
 
-      <button
-        onClick={handleStart}
-        style={{
-          marginTop: 20,
-          padding: 12,
-          background: "black",
-          color: "white",
-          width: "100%",
-        }}
-      >
-        Inizia / Registrati
-      </button>
-
       <InstallButton />
 
       <p style={{ marginTop: 20, fontSize: 14 }}>
         Se hai già installato la app, puoi registrarti o accedere alla dashboard
         da questa schermata.
       </p>
+
+      {/* ACTION SHEET */}
+      <ActionSheet
+        title="Menu"
+        description="Scegli cosa fare"
+        actions={["Home", "Accedi", "Registra"]}
+        onAction={handleAction}
+      />
     </main>
   );
 }
